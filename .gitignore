@@ -1,0 +1,5 @@
+.idea/*
+_tile_cache/
+*__pycache__
+map_z*.png
+.DS_Store
