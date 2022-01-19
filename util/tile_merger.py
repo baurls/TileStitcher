@@ -6,13 +6,17 @@ from definitions.defaults import DEFAULT_IMG_DOWNLOAD_FORMAT, DEFAULT_OUT_FOLDER
     DEFAULT_IMG_STORE_FORMAT
 from util import GridBoundingBox, GridIndex
 
+import logging
+logger = logging.getLogger(__name__)
+
 
 class TileMerger:
-    def __init__(self, temp_folder=None, output_folder=None, img_input_format=None, img_output_format=None):
+    def __init__(self, temp_folder=None, output_folder=None, img_input_format=None, img_output_format=None, show_progress=True):
         self.img_input_format = img_input_format if img_input_format is not None else DEFAULT_IMG_DOWNLOAD_FORMAT
         self.img_output_format = img_output_format if img_output_format is not None else DEFAULT_IMG_STORE_FORMAT
         self.output_folder = output_folder if output_folder is not None else DEFAULT_OUT_FOLDER
         self.temp_folder = temp_folder if temp_folder is not None else DEFAULT_TEMP_FOLDER
+        self.show_progress = show_progress
 
     @staticmethod
     def _get_output_name(grid_bb: GridBoundingBox) -> str:
@@ -42,17 +46,16 @@ class TileMerger:
         tile_size = self._load_tile_size(grid_bb)
         merged_image = Image.new('RGB', (len(grid_bb.x_range) * tile_size, len(grid_bb.y_range) * tile_size))
 
-        print("Merging tiles to one file..")
+        logger.info("Merging tiles to one file..")
         for i, x, j, y in tqdm(
-                [(i, x, j, y) for i, x in enumerate(grid_bb.x_range) for j, y in enumerate(grid_bb.y_range)]):
+                [(i, x, j, y) for i, x in enumerate(grid_bb.x_range) for j, y in enumerate(grid_bb.y_range)], disable=not self.show_progress
+        ):
             current_cell = GridIndex(x, y, grid_bb.z)
             current_tile = Image.open(self._generate_tile_name(current_cell))
             merged_image.paste(current_tile, (tile_size * i, tile_size * j))
 
-        print("Writing file..")
+        logger.info("Writing file..")
         out_name = self._get_output_name(grid_bb)
         out_filename = "{}{}.{}".format(self.output_folder, out_name, self.img_output_format[0])
         merged_image.save(out_filename, self.img_output_format[1])
-        print()
-        print("Merge successful!")
-        print("The image has been stored at {}".format(out_filename))
+        logger.info("Merge successful! The image has been stored at '{}'".format(out_filename))

@@ -1,23 +1,23 @@
 import os
-import sys
 import urllib.request
-import time
 
-import joblib
 from joblib import Parallel, delayed
-
 from tqdm import tqdm
+
+import logging
+logger = logging.getLogger(__name__)
 
 from definitions.defaults import DEFAULT_TEMP_FOLDER, DEFAULT_TILE_SERVER, DEFAULT_IMG_DOWNLOAD_FORMAT
 from util import GridBoundingBox, GridIndex
 
 
 class TileDownloader:
-    def __init__(self, tile_servers=None, temp_folder=None, img_format=None):
+    def __init__(self, tile_servers=None, temp_folder=None, img_format=None, show_progress=True):
         self.tile_servers = tile_servers if tile_servers is not None else DEFAULT_TILE_SERVER
         self.temp_folder = temp_folder if temp_folder is not None else DEFAULT_TEMP_FOLDER
         self.img_format = img_format if img_format is not None else DEFAULT_IMG_DOWNLOAD_FORMAT
         self._vis_blocks = 35
+        self.show_progress = show_progress
 
     def generate_tile_name(self, index: GridIndex):
         return "{}z={}_x={}_y={}.{}".format(self.temp_folder, index.x, index.y, index.z, self.img_format)
@@ -28,11 +28,11 @@ class TileDownloader:
     def download_tiles(self, grid_bb: GridBoundingBox, download_in_parallel=True):
         os.makedirs(self.temp_folder, exist_ok=True)
         if not download_in_parallel:
-            print("Downloading {} tiles sequentially to disk ..".format(grid_bb.covered_cells))
+            logger.info("Downloading {} tiles sequentially to disk ..".format(grid_bb.covered_cells))
             return self._download_tiles_sequentially(grid_bb)
 
         # download in parallel
-        print("Downloading {} tiles to disk (in parallel)..".format(grid_bb.covered_cells))
+        logger.info("Downloading {} tiles to disk (in parallel)..".format(grid_bb.covered_cells))
         delayed_downloads = [
             delayed(self._download_tile_in_parallel)(
                 GridIndex(x, y, grid_bb.z), i, len(self.tile_servers), grid_bb.covered_cells
@@ -44,7 +44,6 @@ class TileDownloader:
         parallel_pool = Parallel(n_jobs=-1)
         parallel_pool(delayed_downloads)
         self._update_progressbar(1.0)
-        print()
 
     def _download_tile(self, tile_cell: GridIndex):
         url = self.generate_tile_url(tile_cell, 0)
@@ -59,6 +58,8 @@ class TileDownloader:
         self._update_progressbar(share)
 
     def _update_progressbar(self, share):
+        if not self.show_progress:
+            return
         visible = int(share * self._vis_blocks)
         invisible = self._vis_blocks - visible
 
@@ -69,7 +70,6 @@ class TileDownloader:
             # download tile x,y,z
             tile_cell = GridIndex(x, y, grid_bb.z)
             self._download_tile(tile_cell)
-        print()
 
 
 def _trigger_download(url, file_path):
