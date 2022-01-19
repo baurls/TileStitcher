@@ -37,21 +37,22 @@ class TileMerger:
         return tile_size
 
     def merge(self, grid_bb):
-
         os.makedirs(self.output_folder, exist_ok=True)
 
         tile_size = self._load_tile_size(grid_bb)
         merged_image = Image.new('RGB', (len(grid_bb.x_range) * tile_size, len(grid_bb.y_range) * tile_size))
 
         print("Merging tiles to one file..")
-        for i, x in tqdm(enumerate(grid_bb.x_range)):
-            for j, y in enumerate(grid_bb.y_range):
-                current_cell = GridIndex(x, y, grid_bb.z)
-                current_tile = Image.open(self._generate_tile_name(current_cell))
-                merged_image.paste(current_tile, (tile_size * i, tile_size * j))
+        for i, x, j, y in tqdm(
+                [(i, x, j, y) for i, x in enumerate(grid_bb.x_range) for j, y in enumerate(grid_bb.y_range)]):
+            current_cell = GridIndex(x, y, grid_bb.z)
+            current_tile = Image.open(self._generate_tile_name(current_cell))
+            merged_image.paste(current_tile, (tile_size * i, tile_size * j))
 
+        print("Writing file..")
         out_name = self._get_output_name(grid_bb)
         out_filename = "{}{}.{}".format(self.output_folder, out_name, self.img_output_format[0])
         merged_image.save(out_filename, self.img_output_format[1])
         print()
+        print("Merge successful!")
         print("The image has been stored at {}".format(out_filename))

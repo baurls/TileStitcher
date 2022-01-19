@@ -6,7 +6,7 @@ from util.tile_merger import TileMerger
 start = Coordinate(48.139974, 9.20929)  # lat, lon
 end = Coordinate(48.111443, 9.271603)  # lat, lon
 
-zoom = 16
+zoom = 17
 
 start_grid_index = conversion.get_index_from_coordinate(start, zoom)
 end_grid_index = conversion.get_index_from_coordinate(end, zoom)
