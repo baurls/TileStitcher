@@ -2,7 +2,7 @@
 # Code taken from https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
 import math
 
-from util import Coordinate, GridIndex
+from tile_stitcher.util.data_structures import Coordinate, GridIndex
 
 
 def get_index_from_coordinate(coordinate: Coordinate, zoom: int) -> GridIndex:
@@ -10,7 +10,7 @@ def get_index_from_coordinate(coordinate: Coordinate, zoom: int) -> GridIndex:
     return GridIndex(x, y, zoom)
 
 
-def get_coordinate_from_index(grid_index : GridIndex) -> Coordinate:
+def get_coordinate_from_index(grid_index: GridIndex) -> Coordinate:
     lon, lat = _get_coordinate_from_index(grid_index.x, grid_index.y, grid_index.z)
     return Coordinate(lat, lon)
 
@@ -29,5 +29,3 @@ def _get_coordinate_from_index(x: int, y: int, z: int) -> (float, float):
     lon = (x / divisor) * 360 - 180
     lat = math.degrees(math.atan(math.sinh(math.pi - (y / divisor) * 2 * math.pi)))
     return lon, lat
-
-

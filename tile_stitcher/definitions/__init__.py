@@ -7,7 +7,7 @@ DEFAULT_TILE_SERVERS = {
     "STAMEN_TONER": [
         "http://a.tile.stamen.com/toner/{z}/{x}/{y}.png"
     ],
-    "OPENTOP_MAP":[
+    "OPENTOP_MAP": [
         "https://a.tile.opentopomap.org/{z}/{x}/{y}.png",
         "https://b.tile.opentopomap.org/{z}/{x}/{y}.png",
         "https://c.tile.opentopomap.org/{z}/{x}/{y}.png",

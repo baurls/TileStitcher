@@ -1,17 +1,19 @@
-from PIL import Image
+import logging
 import os
+
+from PIL import Image
 from tqdm import tqdm
 
-from definitions.defaults import DEFAULT_IMG_DOWNLOAD_FORMAT, DEFAULT_OUT_FOLDER, DEFAULT_TEMP_FOLDER, \
+from tile_stitcher.definitions.defaults import DEFAULT_IMG_DOWNLOAD_FORMAT, DEFAULT_OUT_FOLDER, DEFAULT_TEMP_FOLDER, \
     DEFAULT_IMG_STORE_FORMAT
-from util import GridBoundingBox, GridIndex
+from tile_stitcher.util.data_structures import GridIndex, GridBoundingBox
 
-import logging
 logger = logging.getLogger(__name__)
 
 
 class TileMerger:
-    def __init__(self, temp_folder=None, output_folder=None, img_input_format=None, img_output_format=None, show_progress=True):
+    def __init__(self, temp_folder=None, output_folder=None, img_input_format=None, img_output_format=None,
+                 show_progress=True):
         self.img_input_format = img_input_format if img_input_format is not None else DEFAULT_IMG_DOWNLOAD_FORMAT
         self.img_output_format = img_output_format if img_output_format is not None else DEFAULT_IMG_STORE_FORMAT
         self.output_folder = output_folder if output_folder is not None else DEFAULT_OUT_FOLDER
@@ -48,7 +50,8 @@ class TileMerger:
 
         logger.info("Merging tiles to one file..")
         for i, x, j, y in tqdm(
-                [(i, x, j, y) for i, x in enumerate(grid_bb.x_range) for j, y in enumerate(grid_bb.y_range)], disable=not self.show_progress
+                [(i, x, j, y) for i, x in enumerate(grid_bb.x_range) for j, y in enumerate(grid_bb.y_range)],
+                disable=not self.show_progress
         ):
             current_cell = GridIndex(x, y, grid_bb.z)
             current_tile = Image.open(self._generate_tile_name(current_cell))

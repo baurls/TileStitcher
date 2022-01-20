@@ -1,5 +1,5 @@
-from definitions import DEFAULT_TILE_SERVERS
-from definitions.tile_img_formats import IMG_FORMAT_PNG
+from tile_stitcher.definitions import DEFAULT_TILE_SERVERS
+from tile_stitcher.definitions.tile_img_formats import IMG_FORMAT_PNG
 
 # folders
 DEFAULT_TEMP_FOLDER = "_tile_cache/"

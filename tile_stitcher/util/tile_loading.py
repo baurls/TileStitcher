@@ -1,14 +1,14 @@
+import logging
 import os
 import urllib.request
 
 from joblib import Parallel, delayed
 from tqdm import tqdm
 
-import logging
 logger = logging.getLogger(__name__)
 
-from definitions.defaults import DEFAULT_TEMP_FOLDER, DEFAULT_TILE_SERVER, DEFAULT_IMG_DOWNLOAD_FORMAT
-from util import GridBoundingBox, GridIndex
+from tile_stitcher.definitions.defaults import DEFAULT_TEMP_FOLDER, DEFAULT_TILE_SERVER, DEFAULT_IMG_DOWNLOAD_FORMAT
+from tile_stitcher.util.data_structures import GridIndex, GridBoundingBox
 
 
 class TileDownloader:
@@ -54,7 +54,7 @@ class TileDownloader:
         url = self.generate_tile_url(tile_cell, i % no_server)
         file_name = self.generate_tile_name(tile_cell)
         _trigger_download(url, file_name)
-        share = (i+1) / total_nbr
+        share = (i + 1) / total_nbr
         self._update_progressbar(share)
 
     def _update_progressbar(self, share):
