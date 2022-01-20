@@ -1,9 +1,6 @@
 from distutils.core import setup
 
-with open("README.md", 'r') as f:
-    long_description = f.read()
-
-VERSION = "0.5"
+VERSION = "0.6"
 
 setup(
     name='map_tile_stitcher',
@@ -11,7 +8,7 @@ setup(
     version=VERSION,
     license='apache-2.0',
     description='Downloads and stitches tiles to a large high-resolution map on any zoom level',
-    long_description=long_description,
+    long_description="Please take a look at https://github.com/baurls/TileStitcher",
     author='Lukas Baur',
     url='https://github.com/baurls/TileStitcher',  # Provide either the link to your github or to your website
     download_url='https://github.com/baurls/TileStitcher/archive/refs/tags/v{}.tar.gz'.format(VERSION),
