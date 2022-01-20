@@ -2,3 +2,12 @@
 setup.cfg
 setup.py
 map_tile_stitcher/__init__.py
+map_tile_stitcher/definitions/__init__.py
+map_tile_stitcher/definitions/defaults.py
+map_tile_stitcher/definitions/tile_img_formats.py
+map_tile_stitcher/util/__init__.py
+map_tile_stitcher/util/conversion.py
+map_tile_stitcher/util/data_structures.py
+map_tile_stitcher/util/quick_start.py
+map_tile_stitcher/util/tile_loading.py
+map_tile_stitcher/util/tile_merging.py

@@ -1,14 +1,20 @@
 from distutils.core import setup
 
+with open("README.md", 'r') as f:
+    long_description = f.read()
+
+VERSION = "0.5"
+
 setup(
     name='map_tile_stitcher',
-    packages=['map_tile_stitcher'],
-    version='0.4',
+    packages=['map_tile_stitcher', 'map_tile_stitcher.util', 'map_tile_stitcher.definitions'],
+    version=VERSION,
     license='apache-2.0',
     description='Downloads and stitches tiles to a large high-resolution map on any zoom level',
+    long_description=long_description,
     author='Lukas Baur',
     url='https://github.com/baurls/TileStitcher',  # Provide either the link to your github or to your website
-    download_url='https://github.com/baurls/TileStitcher/archive/refs/tags/v0.4.tar.gz',
+    download_url='https://github.com/baurls/TileStitcher/archive/refs/tags/v{}.tar.gz'.format(VERSION),
     keywords=['tiling', 'map', 'tiles'],  # Keywords that define your package best
     install_requires=[  # I get to this in a second
         'joblib',
