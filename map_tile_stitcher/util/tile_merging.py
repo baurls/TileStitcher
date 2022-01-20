@@ -4,9 +4,9 @@ import os
 from PIL import Image
 from tqdm import tqdm
 
-from tile_stitcher.definitions.defaults import DEFAULT_IMG_DOWNLOAD_FORMAT, DEFAULT_OUT_FOLDER, DEFAULT_TEMP_FOLDER, \
+from map_tile_stitcher.definitions.defaults import DEFAULT_IMG_DOWNLOAD_FORMAT, DEFAULT_OUT_FOLDER, DEFAULT_TEMP_FOLDER, \
     DEFAULT_IMG_STORE_FORMAT
-from tile_stitcher.util.data_structures import GridIndex, GridBoundingBox
+from map_tile_stitcher.util.data_structures import GridIndex, GridBoundingBox
 
 logger = logging.getLogger(__name__)
 

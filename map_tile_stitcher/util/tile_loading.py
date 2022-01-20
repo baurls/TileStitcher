@@ -7,8 +7,8 @@ from tqdm import tqdm
 
 logger = logging.getLogger(__name__)
 
-from tile_stitcher.definitions.defaults import DEFAULT_TEMP_FOLDER, DEFAULT_TILE_SERVER, DEFAULT_IMG_DOWNLOAD_FORMAT
-from tile_stitcher.util.data_structures import GridIndex, GridBoundingBox
+from map_tile_stitcher.definitions.defaults import DEFAULT_TEMP_FOLDER, DEFAULT_TILE_SERVER, DEFAULT_IMG_DOWNLOAD_FORMAT
+from map_tile_stitcher.util.data_structures import GridIndex, GridBoundingBox
 
 
 class TileDownloader:
