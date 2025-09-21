@@ -27,7 +27,7 @@ class TileMerger:
                                                        y2=grid_bb.upper_corner.y)
 
     def _generate_tile_name(self, index: GridIndex):
-        return "{}z={}_x={}_y={}.{}".format(self.temp_folder, index.x, index.y, index.z, self.img_input_format)
+        return "{}z={}_x={}_y={}.{}".format(self.temp_folder, index.z, index.x, index.y, self.img_input_format)
 
     def _load_image_to_grid_cell(self, cell_index: GridIndex):
         filename = self._generate_tile_name(cell_index)

@@ -20,7 +20,7 @@ class TileDownloader:
         self.show_progress = show_progress
 
     def generate_tile_name(self, index: GridIndex):
-        return "{}z={}_x={}_y={}.{}".format(self.temp_folder, index.x, index.y, index.z, self.img_format)
+        return "{}z={}_x={}_y={}.{}".format(self.temp_folder, index.z, index.x, index.y, self.img_format)
 
     def generate_tile_url(self, index: GridIndex, subserver_index):
         return self.tile_servers[subserver_index].format(x=index.x, y=index.y, z=index.z)
@@ -73,7 +73,7 @@ class TileDownloader:
 
 
 def _trigger_download(url, file_path):
-    user_agent = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.7) Gecko/2009021910 Firefox/3.0.7'
+    user_agent = 'TileSticher/0.7 (contact: https://github.com/baurls/TileStitcher/)'
     headers = {'User-Agent': user_agent}
 
     request = urllib.request.Request(url, None, headers)

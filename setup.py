@@ -1,6 +1,6 @@
 from distutils.core import setup
 
-VERSION = "0.6"
+VERSION = "0.7"
 
 setup(
     name='map_tile_stitcher',
@@ -30,5 +30,8 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
     ],
 )
